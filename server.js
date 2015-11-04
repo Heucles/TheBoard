@@ -38,17 +38,33 @@ var http = require("http");
 var express = require("express");
 var app = express();
 
-var controllers = require("./controllers");
-
 //setup the view engine
 app.set("view engine", "vash");
+
+//Opt into services
+var bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+var cookieParser = require("cookie-parser");
+app.use(cookieParser());
+
+var expressSession = require("express-session");
+app.use(expressSession({ secret: "PluralSightTheBoard", cookie: { maxAge: 60000 }, resave: true, saveUninitialized: true }));
+
+var flash = require("connect-flash");
+app.use(flash());
 
 // set a public static resources folder
 app.use(express.static(__dirname + "/staticResources"));
 
 
+var controllers = require("./controllers");
+var apiControllers = require("./controllers/api");
+
 // Mapping the routes
 controllers.init(app);
+apiControllers.init(app);
 
 var server = http.createServer(app);
 
