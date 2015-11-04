@@ -1,0 +1,14 @@
+﻿@html.extend("layout", function(model){
+    
+    @html.block("body", function(model){
+    
+    <div>
+            <a href="/" >Back</a>
+
+        <div>
+            </div>
+        </div>
+
+    }
+
+}
